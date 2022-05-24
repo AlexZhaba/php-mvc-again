@@ -6,7 +6,7 @@
     });
 
     @$route = $_GET['route'];
-    $routes = require 'routes.php';
+    $routes = require __DIR__.'/routes.php';
 
     $isRouteFound = false;
     foreach($routes as $pattern => $controllerAndAction){
