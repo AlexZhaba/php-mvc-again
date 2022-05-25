@@ -1,25 +1,28 @@
 <?php
     namespace MyProject\Models\Articles;
     use MyProject\Models\Users\User;
+    use MyProject\Models\ActiveRecordEntity;
     
-    class Article{
-        private $title;
-        private $text;
-        private $author;
+    class Article extends ActiveRecordEntity{
+        protected $name;
+        protected $text;
+        protected $authorId;
+        protected $createdAt;
 
-        public function __construct(string $title, string $text, User $author){
-            $this->title = $title;
-            $this->text = $text;
-            $this->author = $author;
-        }
-        public function getTitle(){
-            return $this->title;
+        public function getName(){
+            return $this->name;
         }
         public function getText(){
             return $this->text;
         }
-        public function getAuthor(){
-            return $this->author;
+        public function getAuthor(): User
+        {
+            return User::getById($this->authorId);
+        }
+        public static function getTableName():string
+        {
+            return 'articles';
         }
     }
+
 ?>

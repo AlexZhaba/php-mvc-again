@@ -1,17 +1,16 @@
 <?php
     namespace MyProject\Controllers;
     use MyProject\View\View;
+    use MyProject\Models\Articles\Article;
 
     class MainController{
         private $view;
+
         public function __construct(){
             $this->view = new View(__DIR__.'/../../../templates');
         }
         public function main(){
-            $articles = [
-                ['title' => 'Заголовок 1', 'text' => 'Текст 1'],
-                ['title' => 'Заголовок 2', 'text' => 'Текст 2'],
-            ];
+            $articles = Article::findAll();
             $this->view->renderHtml('main/main.php', ['articles' => $articles]);
         }
         public function sayHello(string $name){
