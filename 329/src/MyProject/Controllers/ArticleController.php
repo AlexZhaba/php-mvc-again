@@ -10,7 +10,7 @@
         }
         public function view(int $idArticle){
             $articles = Article::getById($idArticle);
-            if ($articles === []){
+            if ($articles === null){
                 $this->view->renderHtml('errors/404.php', [], 404);
                 return;
             }

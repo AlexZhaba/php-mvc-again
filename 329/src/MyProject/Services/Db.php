@@ -3,10 +3,10 @@
 
     class Db{
         private $connect;
-        public function __construct(){
-            $dbOptions = (require __DIR__.'/../../settings.php')['db'];
-            // var_dump($dbOptions);
+        private static $instance;
 
+        private function __construct(){
+            $dbOptions = (require __DIR__.'/../../settings.php')['db'];
             $this->connect = new \PDO (
                 'mysql:host='.$dbOptions['host'].';dbname='.$dbOptions['dbname'],
                 $dbOptions['user'],
@@ -14,6 +14,15 @@
             );
             $this->connect->exec('SET NAMES UTF8');
         }
+
+        public static function getInstance(): self
+        {
+            if (self::$instance == null){
+                self::$instance = new self();
+            }
+            return self::$instance;
+        }
+        
         public function query(string $sql, $params = [], string $className = 'stdClass'): ?array
         {
             $stmt = $this->connect->prepare($sql);
