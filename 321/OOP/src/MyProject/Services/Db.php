@@ -13,12 +13,13 @@
             );
             $this->connect->exec('SET NAMES UTF8');
         }
-        public function query(string $sql, $params = []): ?array
+        public function query(string $sql, $params = [], string $className = 'stdClass'): ?array
         {
             $stm = $this->connect->prepare($sql);
             $result = $stm->execute($params);
             if ($result === false) return null;
-            return $stm->fetchAll();
+            
+            return $stm->fetchAll(\PDO::FETCH_CLASS, $className);
         }
     }
 ?>
