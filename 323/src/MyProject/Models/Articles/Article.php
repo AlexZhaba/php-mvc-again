@@ -3,24 +3,33 @@
     use MyProject\Models\Users\User;
 
     class Article{
-        private $title;
+        private $id;
+        private $name;
         private $text;
-        private $author;
-
-        public function __construct(string $title, string $text, User $author){
-            $this->title = $title;
-            $this->text = $text;
-            $this->author = $author;
-
+        private $authorId;
+        private $createdAt;
+ 
+        public function __set($name, $value){
+            $camelCaseName = $this->underscoreToCamelCase($name);
+            $this->$camelCaseName = $value;
         }
-        public function getTitle(){
-            return $this->title;
+
+        public function underscoreToCamelCase(string $name): string
+        {
+            return lcfirst(str_replace('_','',ucwords($name, '_')));
+        }
+
+        public function getId(){
+            return $this->id;
         }
         public function getText(){
             return $this->text;
         }
-        public function getAuthor(){
-            return $this->author;
+        public function getName(){
+            return $this->name;
         }
+
+
+
     }
 ?>
