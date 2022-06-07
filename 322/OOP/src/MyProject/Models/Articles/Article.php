@@ -23,5 +23,8 @@
         public function setText(string $text){
             $this->text = $text;
         }
+        public function setAuthorId(User $author){
+            $this->authorId = $author->id;
+        }
     }
 ?>

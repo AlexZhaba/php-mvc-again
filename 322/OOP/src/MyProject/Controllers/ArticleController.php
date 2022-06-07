@@ -1,6 +1,7 @@
 <?php
     namespace MyProject\Controllers;
     use MyProject\Models\Articles\Article;
+    use MyProject\Models\Users\User;
     use MyProject\View\View;
 
     class ArticleController{
@@ -19,7 +20,7 @@
                 $propertiesName[] = $property->getName(); 
             }
             // var_dump($propertiesName);
-            if ($article === []){
+            if ($article === null){
                 $this->view->renderHtml('errors/404.php', [], 404);
                 return;
             }
@@ -29,13 +30,29 @@
         public function edit(int $articleId): void
         {
             $article = Article::getById($articleId);
-            if ($article === []){
+            if ($article === null){
                 $this->view->renderHtml('errors/404.php', [], 404);
                 return;
             }
             $article->setName('New title');
             $article->setText('New text');
             $article->save();
+        }
+        public function add(): void{
+            $author = User::getById(1);
+            $article = new Article();
+            $article->setAuthorId($author);
+            $article->setName('new title 07');
+            $article->setText('new text 07');
+            $article->save();
+        }
+        public function delete(int $articleId):void{
+            $article = Article::getById($articleId);
+            if ($article === null){
+                $this->view->renderHtml('errors/404.php', [], 404);
+                return;
+            }
+            $article->delete();
         }
     }
 ?>

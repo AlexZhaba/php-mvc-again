@@ -56,7 +56,25 @@
         }
         public function insert(array $mappedProperties): void
         {
-            
+            $filterMappedProperties = array_filter($mappedProperties);
+            $columns = [];
+            $params = [];
+            $paramsToValues = [];
+            foreach($filterMappedProperties as $column => $value){
+                $columns[] ='`'.$column.'`';
+                $paramsName = ':'.$column;
+                $params[] = $paramsName;
+                $paramsToValues[$paramsName] = $value;
+            }
+            $sql = 'INSERT INTO `'.static::getTableName().'` ('.implode(', ', $columns).') VALUES ('.implode(', ', $params).')';
+            $db = Db::getInstance();
+            $db->query($sql, $paramsToValues, static::class);
+        }
+
+        public function delete():void{
+            $db = Db::getInstance();
+            $db->query('DELETE FROM '.static::getTableName().' WHERE id = :id', [':id' => $this->id], static::class);
+            $this->id = null;
         }
 
         private function mapPropertiesToDbFormat(): array
