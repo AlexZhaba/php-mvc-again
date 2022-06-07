@@ -6,8 +6,8 @@
 
 
     class Article extends ActiveRecordEntity{
-        private $name;
-        private $text;
+        protected $name;
+        protected $text;
         protected $authorId;
         protected $createdAt;
 
@@ -18,6 +18,15 @@
             return $this->text;
         }
 
+        public function setName(string $name){
+            $this->name = $name;
+        }
+        public function setText(string $text){
+            $this->text = $text;
+        }
+        public function setAuthor(User $author){
+            $this->authorId = $author->id;
+        }
         public static function getTableName():string 
         {
             return 'articles';
