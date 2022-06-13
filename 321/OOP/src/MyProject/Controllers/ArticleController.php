@@ -2,6 +2,7 @@
     namespace MyProject\Controllers;
     use MyProject\View\View;
     use MyProject\Models\Articles\Article;
+    use MyProject\Models\Articles\Comment;
     use MyProject\Models\Users\User;
 
 
@@ -14,12 +15,22 @@
 
         public function view(int $idArticle){
             $result = Article::getById($idArticle);
+            $comments = Comment::getSomeById($idArticle, "article_id");
+            $users = User::findAll();
+
+            $users_comment = [];
+
+            foreach ($comments as $comment) {
+                // var_dump($comment);
+                $users_comment[$comment->getId()] = User::getById($comment->getAuthor());
+            }
+
             if ($result === []){
                 $this->view->renderHtml('errors/404.php', [], 404);
                 return;
             }
             // var_dump($result);
-            $this->view->renderHtml('articles/view.php', ['article' => $result]);
+            $this->view->renderHtml('articles/view.php', ['article' => $result, 'comments' => $comments, 'users' => $users, 'users_comment' => $users_comment]);
         }
 
         public function edit(int $articleId): void{
@@ -49,7 +60,5 @@
             }
             $result->delete();
         }
-        
-        
     }
 ?>

@@ -81,6 +81,14 @@
             $entities = $db->query('SELECT * FROM `'.static::getTableName().'` WHERE id = :id', [':id' => $id], static::class);
             return $entities ? $entities[0] : null;
         }
+
+        public static function getSomeById(int $id, string $id_name = "id")
+        {
+            $db = Db::getInstance();
+            $entities = $db->query('SELECT * FROM `'.static::getTableName().'` WHERE '. $id_name .' = :id', [':id' => $id], static::class);
+            return $entities ? $entities : null;
+        }
+
         public function delete():void{
             $db = Db::getInstance();
             $db->query('DELETE FROM `'.static::getTableName().'` WHERE id = :id', [':id' => $this->id], static::class);

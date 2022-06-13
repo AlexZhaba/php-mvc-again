@@ -3,7 +3,7 @@
         require_once __DIR__.'/../src/'.str_replace('\\', '/', $className).'.php';
     });
 
-    $route = $_GET['route'] ?? '';
+    $route = strtok($_SERVER["REQUEST_URI"], '?') ?? '';
     $routes = require __DIR__.'/routes.php';
     $isRouteFound = false;
     foreach($routes as $pattern => $controllerAndAction){
@@ -21,7 +21,11 @@
     $controllerName = $controllerAndAction[0];
     $actionName = $controllerAndAction[1];
     $controller = new $controllerName();
-    $controller->$actionName(...$matches);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $controller->$actionName($_POST, ...$matches);
+   } else {
+        $controller->$actionName(...$matches);
+   }
 
     // require '../src/MyProject/Models/Users/User.php';
     // require '../src/MyProject/Models/Articles/Article.php';

@@ -4,7 +4,7 @@
             'host' => 'localhost',
             'dbname' => 'db-blog',
             'user' => 'root',
-            'password' => '',
+            'password' => '12345678',
         ]
         ];
 ?>

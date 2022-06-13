@@ -4,10 +4,10 @@
 
     
     class User extends ActiveRecordEntity{
-        private $name;
+        private $username;
 
         public function getName(){
-            return $this->name;
+            return $this->username;
         }
 
         public static function getTableName():string 
